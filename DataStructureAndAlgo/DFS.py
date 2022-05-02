@@ -108,7 +108,61 @@ class NQueens:
                row - col not in xy_diff and \
                row + col not in xy_sum:
                 self._dfs(queens + [col], n, xy_diff + [row -col], xy_sum + [row + col])
-      
+
+
+class Sudoku:
+    def solver(self, board):
+        self.dfs(board, 0, 0)
+
+    def dfs(self, board, i, j):
+        """
+        i: row No.
+        j: col No.
+        """
+        if i == 9:  # terninator, processed all the rows
+            return True
+
+        if j >= 9:  # process next row
+            return self.dfs(board, i+1, 0)
+        
+        if board[i][j] != ".":  # process next col
+            return self.dfs(board, i, j + 1)
+        
+        # process board[i][j] == "."
+        for val in range(1, 10):  # [1-9]
+            if not self.isValid(board, i , j, val):
+                continue
+            else:
+                board[i][j] = val  # isValid(board, i, j, val)
+
+            if self.dfs(board, i, j+1):  # search next col in row i
+                return True
+            else:
+                board[i][j] = "."  # go back to restore
+        
+        return False
+    
+    def isValid(self, board, i, j, val):
+        """
+        check row i, col j, and block (i, j) is in.
+        """
+        for k in range(9):
+            if board[i][k] == val:  # check row i, each col in row i
+                return False
+            if board[k][j] == val:  # check col j
+                return False
+            
+            # check block
+            block_start_row = i // 3 * 3  # (0, 3, 6)
+            block_start_col = j // 3 * 3  # (0, 3, 6)
+            # 0,1,2 for 1st row, 3,4,5 for 2nd row, 6,7,8 for 3rd row
+            block_row = block_start_row + k // 3
+            block_col = block_start_col + k % 3
+            if board[block_row][block_col] == val:
+                return False
+
+        return True 
+
 
 if __name__ == "__main__":
     results = NQueens().solve(8)
