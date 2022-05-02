@@ -56,7 +56,7 @@ def edit_distance(word1, word2):
 
     for i in range(m+1):  # word2 = ""
         dp[i][0] = i
-    for j in range(n+1):
+    for j in range(n+1):  # word1 = ""
         dp[0][j] = j
     
     for i in range(m+1):
@@ -67,6 +67,44 @@ def edit_distance(word1, word2):
                 dp[i][j-1]
             )
     return dp[m][n]
+
+def wildcard_matching(pattern, strr):
+    """
+    very similar to edit distance, 
+    a good example for understanding regular expression.
+
+    strr = "baaabab"
+    pattern = "***ba*?**ab"
+
+    ? matches any single character 
+    * Matches any sequence of characters (including the empty sequence)
+    """
+    m, n = len(pattern), len(strr)  # col for pattern, and row for strr
+
+    # empty string match
+    if m == 0:
+        return n == 0
+    
+    # define a dp array and initialize
+    dp = [[False for _ in range(m+1)] for _ in range(n+1)]
+    dp[0][0] = True
+
+    for j in range(1, m+1):  # 1st row
+        if pattern[j-1] == "*":  # pattern[j-1] corresponds with dp[:][j]
+            dp[0][j] = dp[0][j-1]
+    
+    for i in range(1, n+1):
+        for j in range(1, m+1):
+            if pattern[j-1] == "*":
+                dp[i][j] = dp[i][j-1] or dp[i-1][j]  # * can match one more or None
+            
+            elif pattern[j-1] == "?" or strr[i-1] == pattern[j-1]:  # match one char
+                dp[i][j] = dp[i-1][j-1]
+            
+            else:
+                dp[i][j] = False
+
+    return dp[n][m]
 
 
 
