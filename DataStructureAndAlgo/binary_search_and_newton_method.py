@@ -19,7 +19,7 @@ similarly, a curve
     g(r) = 2r(x - r0) + g(r0), within a small range near r0 (try to convince yourself),
 let g(r) = 0, it could be get
     r1 = r0 - g(r0) / 2r0, or 
-    r1 = r0 - (r0^2 - x) / 2r0 = (r0 + x/ r0)
+    r1 = r0 - (r0^2 - x) / 2r0 = (r0 + x/ r0) / 2
 """
 
 def binary_search(array, target):

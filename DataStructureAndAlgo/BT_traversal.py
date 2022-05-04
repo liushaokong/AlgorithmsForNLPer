@@ -42,12 +42,15 @@ class TreeNode():
         # visited = set([root])  # set an iterable objec
 
         while queue:
-            level_size = len(queue)  # process layer by layer, very important to record this length
+            level_size = len(queue)  # process layer by layer, record for level infomation.
             level_result = []  # current level container
 
             for _ in range(level_size):
                 # generate current node
                 node = queue.popleft()
+
+                # if node not in visited:
+                #     visited.append(node)
 
                 # process current node
                 level_result.append(node.val)

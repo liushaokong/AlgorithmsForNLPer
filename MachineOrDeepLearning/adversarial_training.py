@@ -208,8 +208,11 @@ def _kl_divergence_with_logits(q_logits, p_logits, weights):
 
 def loss_fn(embedded, labels=None, inputs=None, return_logits=False):
     """
-    returns logits, loss if return_logits else return loss
-    return logits if labels is None
+    if labels is None:
+        return logits
+    if return_logits:
+        return logits, loss
+    return loss
     """
     pass
 
